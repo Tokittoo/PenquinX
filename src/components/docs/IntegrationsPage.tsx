@@ -16,12 +16,6 @@ export default function IntegrationsPage() {
             link: "/docs/getting-started/index"
         },
         {
-            title: "Bug Hunter's Toolkit",
-            description: "Essential tools and resources for bug bounty hunters. Everything you need to find and report vulnerabilities.",
-            icon: <GiCrossedSwords />,
-            link: "/docs/arsenal"
-        },
-        {
             title: "Learn the Basics",
             description: "Master the fundamentals of cybersecurity, bug hunting, and ethical hacking with structured learning paths.",
             icon: <FaBookOpen />,
@@ -32,6 +26,12 @@ export default function IntegrationsPage() {
             description: "Connect with top security researchers, bug bounty hunters, and cybersecurity experts across platforms.",
             icon: <FaUserSecret />,
             link: "/docs/twitter"
+        },
+        {
+            title: "Bug Hunter's Toolkit",
+            description: "Essential tools and resources for bug bounty hunters. Everything you need to find and report vulnerabilities.",
+            icon: <GiCrossedSwords />,
+            link: "/docs/arsenal"
         },
         {
             title: "Advanced Techniques",
@@ -53,11 +53,9 @@ export default function IntegrationsPage() {
         <section className="min-h-screen bg-background">
             <div className="py-32">
                 <div className="mx-auto max-w-5xl px-6">
-                    <div className="text-center">
-                        <h2 className="text-balance text-3xl font-semibold md:text-4xl">Integrate with your favorite tools</h2>
-                        <p className="text-muted-foreground mt-6">Connect seamlessly with popular platforms and services to enhance your workflow.</p>
+                    <div className="text-center mb-12">
+                        <h1 className="text-balance text-3xl font-semibold md:text-4xl">Select where you want to start</h1>
                     </div>
-
                     <div className="mt-12 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                         {integrations.map((integration) => (
                             <IntegrationCard
