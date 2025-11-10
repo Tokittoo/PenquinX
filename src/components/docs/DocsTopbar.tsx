@@ -1,0 +1,79 @@
+'use client'
+
+import React from 'react'
+import DarkModeToggle from '../DarkModeToggle'
+import Image from 'next/image'
+import Link from 'next/link'
+import { FaFishFins } from "react-icons/fa6";
+import { useEffect, useState } from 'react'
+import { useTheme } from 'next-themes'
+const DocsTopbar = () => {
+
+  const [credits, setCredits] = useState<number>(0)
+  const [username, setUsername] = useState<string>('KRISHNA')
+  const [avatar, setAvatar] = useState<string>('/Penquin.png')
+  const [avatarLight, setAvatarLight] = useState<string | null>(null)
+  const [avatarDark, setAvatarDark] = useState<string | null>(null)
+  const { theme } = useTheme()
+
+  useEffect(() => {
+    try {
+      const storedCredits = Number.parseInt(localStorage.getItem('px_credits') ?? '0', 10)
+      if (Number.isFinite(storedCredits)) setCredits(storedCredits)
+      const storedName = localStorage.getItem('px_username')
+      if (storedName && storedName.trim().length > 0) setUsername(storedName.toUpperCase())
+      const storedAvatar = localStorage.getItem('px_avatar')
+      if (storedAvatar) setAvatar(storedAvatar)
+      const aLight = localStorage.getItem('px_avatar_light')
+      const aDark = localStorage.getItem('px_avatar_dark')
+      if (aLight) setAvatarLight(aLight)
+      if (aDark) setAvatarDark(aDark)
+    } catch {
+      // ignore read errors; defaults will be used
+    }
+  }, [])
+
+  const currentAvatar = theme === 'dark' ? (avatarDark || avatar) : (avatarLight || avatar)
+
+  return (
+    <div className='h-16 w-full'>
+      <div className='fixed w-full inset-x-0 bg-background border-b border-border top-0 z-50 flex justify-between items-center md:px-20 px-8 py-4'>
+        <div className='flex items-center'>
+          <Link href={'/'} className='flex items-center gap-2'>
+            <Image
+              src={'/Penquin.png'}
+              height={30}
+              width={30}
+              alt='Logo'
+              className='rounded-md invert dark:invert-0'
+            />
+            <h2 className='text-xl font-sans font-bold tracking-tight'>PenquinX</h2>
+          </Link>
+        </div>
+        <div className='flex items-center gap-3'>
+          {/* Credits badge with fish icon */}
+          <div className='inline-flex items-center gap-2 rounded-full border border-border px-3 py-1 text-xs'>
+            <FaFishFins className='h-4 w-4' />
+            <span className='font-medium'>{credits}</span>
+          </div>
+
+          {/* User account showcase */}
+          <div className='flex items-center gap-2'>
+            <Image
+              src={currentAvatar}
+              alt='User avatar'
+              width={28}
+              height={28}
+              className='rounded-full object-cover ring-1 ring-border'
+            />
+            <span className='text-sm font-semibold tracking-wide'>{username}</span>
+          </div>
+
+          <DarkModeToggle />
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default DocsTopbar

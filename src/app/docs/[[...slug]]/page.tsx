@@ -8,8 +8,6 @@ import { docsOrderedSlugs } from '@/lib/docsOrder';
 // @ts-ignore - JSON import for simple config
 import docsMeta from '@/../content/docs/meta.json';
 import Link from 'next/link';
-import { Suspense } from 'react';
-import HighlightQuery from '@/components/docs/HighlightQuery';
 import IntegrationsPage from '@/components/docs/IntegrationsPage';
 
 type DocsMeta = { pages?: string[] };
@@ -168,40 +166,8 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
       <div id="docs-content-root" className="prose prose-gray dark:prose-invert max-w-none">
         <MDX components={getMDXComponents()} />
       </div>
-      {/* Client-side highlighter mounts here and highlights with query param ?q= */}
-      <Suspense fallback={null}>
-        <HighlightQuery />
-      </Suspense>
 
-      {(finalPrevHref || nextHref) && (
-        <div className="flex flex-col md:flex-row mt-6 gap-2 max-w-3xl mx-auto text-muted-foreground">
-          {finalPrevHref && (
-            <a
-              className="group text-sm p-2.5 flex gap-4 flex-1 flex-row-reverse items-center pl-4 border border-border rounded-sm md:p-4 md:text-base hover:border-primary no-underline"
-              href={finalPrevHref}
-            >
-              <span className="flex flex-col flex-1 text-right">
-                <span className="text-xs">Previous</span>
-                <span className="text-foreground group-hover:text-primary line-clamp-2">{prevPage?.data.title}</span>
-              </span>
-              <i className="fas fa-chevron-left hidden md:block text-xs text-muted-foreground group-hover:text-primary" />
-            </a>
-          )}
 
-          {nextHref && (
-            <a
-              className="group text-sm p-2.5 flex gap-4 flex-1 flex-row items-center pr-4 border border-border rounded-sm md:p-4 md:text-base hover:border-primary no-underline"
-              href={nextHref}
-            >
-              <span className="flex flex-col flex-1">
-                <span className="text-xs">Next</span>
-                <span className="text-foreground group-hover:text-primary line-clamp-2">{nextPage?.data.title}</span>
-              </span>
-              <i className="fas fa-chevron-right hidden md:block text-xs text-muted-foreground group-hover:text-primary" />
-            </a>
-          )}
-        </div>
-      )}
     </div>
   );
 }
