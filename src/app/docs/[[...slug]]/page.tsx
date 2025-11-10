@@ -28,12 +28,6 @@ function resolveOrderSlugs(): string[] {
   return [];
 }
 
-function getPageBySlug(slug: string | undefined) {
-  if (slug === undefined) return undefined;
-  // Treat empty string as the root docs page
-  return slug ? source.getPage([slug]) : source.getPage(undefined);
-}
-
 function getBreadcrumb(slug: string): { label: string; href: string }[] {
   // Map slugs to their parent folder label in the sidebar
   const bugHunters = new Set([
@@ -128,21 +122,6 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
     const allParams = await source.generateParams();
     orderedSlugs = allParams.map((p) => (p.slug ?? []).join('/'));
   }
-
-  const index = orderedSlugs.findIndex((s) => s === currentKey);
-  const prevSlug = index > 0 ? orderedSlugs[index - 1] : undefined;
-  const nextSlug = index >= 0 && index < orderedSlugs.length - 1 ? orderedSlugs[index + 1] : undefined;
-
-  const prevPage = getPageBySlug(prevSlug);
-  const nextPage = getPageBySlug(nextSlug);
-
-  const prevHref = prevSlug !== undefined ? `/docs/${prevSlug}` : undefined; // '' -> /docs/
-  const nextHref = nextSlug !== undefined ? `/docs/${nextSlug}` : undefined;
-
-  // Hide previous button if we're on getting-started/index and previous is the root /docs page
-  const isGettingStartedIndex = (params.slug?.length === 2 && params.slug[0] === 'getting-started' && params.slug[1] === 'index') || currentKey === 'getting-started';
-  const shouldHidePrevButton = isGettingStartedIndex && (prevHref === '/docs' || prevHref === '/docs/');
-  const finalPrevHref = shouldHidePrevButton ? undefined : prevHref;
 
   const crumbSlug = currentKey === '' ? 'index' : currentKey;
   const breadcrumbs = getBreadcrumb(crumbSlug);

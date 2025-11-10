@@ -3,7 +3,7 @@ import * as React from 'react'
 import { cn } from '@/lib/utils';
 
 import { IconPointFilled } from '@tabler/icons-react';
-import { motion } from 'motion/react'
+import { motion, easeInOut } from 'framer-motion'
 
 const SLIDER_OFFSET = '12rem';
 const SUB_SLIDER_OFFSET = '5.5rem';
@@ -36,40 +36,24 @@ const TripleToggle = ({
       scale: 1,
       y: -12,
       width: '100%',
-      transition: {
-        duration: 0.2,
-        type: 'tween',
-        ease: 'easeInOut'
-      }
+      transition: { duration: 0.2, ease: easeInOut }
     },
     off: {
       scale: 0.8,
       y: 0,
       width: 'max-content',
-      transition: {
-        duration: 0.2,
-        type: 'tween',
-        ease: 'easeInOut'
-      }
+      transition: { duration: 0.2, ease: easeInOut }
     }
   }
 
   const sliderVariant = {
     on: {
       x: '12rem',
-      transition: {
-        duration: 0.3,
-        type: 'tween',
-        ease: 'easeInOut'
-      }
+      transition: { duration: 0.3, ease: easeInOut }
     },
     off: {
       x: 0,
-      transition: {
-        duration: 0.3,
-        type: 'tween',
-        ease: 'easeInOut'
-      }
+      transition: { duration: 0.3, ease: easeInOut }
     }
   }
 
@@ -78,21 +62,13 @@ const TripleToggle = ({
       opacity: 0,
       scale: 0.8,
       y: 20,
-      transition: {
-        duration: 0.3,
-        type: 'tween',
-        ease: 'easeInOut'
-      }
+      transition: { duration: 0.3, ease: easeInOut }
     },
     off: {
       opacity: 1,
       scale: 1,
       y: 7,
-      transition: {
-        duration: 0.3,
-        type: 'tween',
-        ease: 'easeInOut'
-      }
+      transition: { duration: 0.3, ease: easeInOut }
     }
   }
 
@@ -151,11 +127,7 @@ const TripleToggle = ({
                     x: value !== options.grouped.subOptions[1] ? 0 : SUB_SLIDER_OFFSET,
                   }}
 
-                  transition={{
-                    type: 'tween',
-                    ease: 'easeInOut',
-                    duration: 0.2
-                  }}
+                  transition={{ ease: easeInOut, duration: 0.2 }}
 
                   className='bg-primary-foreground h-10 -top-1 w-1/2 absolute rounded-full -z-1'
                 />

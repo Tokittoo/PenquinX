@@ -4,15 +4,15 @@ interface AuthState {
   isAuthenticated: boolean
   user: null | {
     id: string
-    email: string
+    username: string
     name: string
   }
   checkAuth: () => void
-  login: (email: string, password: string) => Promise<void>
+  login: (username: string) => Promise<void>
   logout: () => void
 }
 
-export const useAuthStore = create<AuthState>((set: any) => ({
+export const useAuthStore = create<AuthState>((setState) => ({
   isAuthenticated: false,
   user: null,
   
@@ -21,22 +21,22 @@ export const useAuthStore = create<AuthState>((set: any) => ({
     const token = localStorage.getItem('token')
     if (token) {
       // Validate token and set auth state
-      set({ isAuthenticated: true })
+      setState({ isAuthenticated: true })
     } else {
-      set({ isAuthenticated: false })
+      setState({ isAuthenticated: false })
     }
   },
 
-  login: async (email: string, password: string) => {
+  login: async (username: string) => {
     try {
       // Here you would make an API call to authenticate
       // For now, just simulating a successful login
       localStorage.setItem('token', 'dummy-token')
-      set({ 
+      setState({ 
         isAuthenticated: true,
         user: {
           id: '1',
-          email: email,
+          username: username,
           name: 'User'
         }
       })
@@ -48,9 +48,10 @@ export const useAuthStore = create<AuthState>((set: any) => ({
 
   logout: () => {
     localStorage.removeItem('token')
-    set({ 
+    setState({ 
       isAuthenticated: false,
       user: null
     })
+  },
   }
-}))
+))

@@ -51,10 +51,7 @@ export default function BugHunterCarousel({ items, className, label, singleMode 
 	const nextIndex = (index + 1) % items.length
 
 	const goTo = (next: number) => {
-		setIndex((prev) => {
-			const total = items.length
-			return (next + total) % total
-		})
+		setIndex((next + items.length) % items.length)
 	}
 
 	const slides: Array<{ position: 'prev' | 'current' | 'next'; item: CarouselItem }> = [
