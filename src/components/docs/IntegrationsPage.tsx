@@ -51,12 +51,23 @@ export default function IntegrationsPage() {
 
     return (
         <section className="min-h-screen bg-background">
-            <div className="py-20">
-                <div className="mx-auto max-w-5xl px-6">
-                    <div className="text-center mb-12">
-                        <h1 className="text-balance text-3xl font-semibold md:text-4xl">Begin Your PenquinX Experience</h1>
+            <div className="pt-8 pb-16 md:pt-12 md:pb-24">
+                <div className="mx-auto max-w-6xl px-6">
+                    {/* Hero Section */}
+                    <div className="text-center mb-16">
+                        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan/10 dark:bg-cyan/20 border border-cyan/20 dark:border-cyan/30 mb-6">
+                            <span className="text-sm font-medium text-cyan dark:text-cyan/90">Documentation Hub</span>
+                        </div>
+                        <h1 className="text-balance text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl mb-4 bg-gradient-to-b from-foreground to-foreground/70 bg-clip-text text-transparent">
+                            Begin Your PenquinX Experience
+                        </h1>
+                        <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                            Comprehensive resources to master cybersecurity, bug hunting, and ethical hacking. Everything you need to start your journey.
+                        </p>
                     </div>
-                    <div className="mt-12 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+
+                    {/* Integration Cards Grid */}
+                    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                         {integrations.map((integration) => (
                             <IntegrationCard
                                 key={integration.title}
@@ -89,37 +100,49 @@ const IntegrationCard = ({
     comingSoon?: boolean
 }) => {
     return (
-        <Card className={`group relative p-6 transition-all duration-300 ease-in-out ${
+        <Card className={`group relative p-6 transition-all duration-300 ease-in-out overflow-hidden ${
             comingSoon 
                 ? 'cursor-not-allowed opacity-75' 
-                : 'hover:scale-[1.02] hover:shadow-lg hover:shadow-primary/10 hover:border-primary/50 cursor-pointer'
+                : 'hover:scale-[1.02] hover:shadow-xl hover:shadow-cyan/5 dark:hover:shadow-cyan/10 hover:border-cyan/30 dark:hover:border-cyan/40 cursor-pointer border-border/50'
         }`}>
-            <div className="relative">
-                <div className={`size-10 flex items-center justify-center [&>svg]:size-10 ${
+            {/* Subtle gradient overlay on hover */}
+            <div className={`absolute inset-0 bg-gradient-to-br from-cyan/0 to-cyan/0 transition-opacity duration-300 pointer-events-none ${
+                comingSoon ? '' : 'group-hover:from-cyan/5 group-hover:to-cyan/0 dark:group-hover:from-cyan/10 dark:group-hover:to-cyan/0'
+            }`} />
+            
+            <div className="relative z-10">
+                {/* Icon with cyan accent */}
+                <div className={`size-12 flex items-center justify-center rounded-lg mb-4 transition-all duration-300 ${
                     comingSoon 
-                        ? '' 
-                        : 'transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3'
+                        ? 'bg-muted' 
+                        : 'bg-cyan/10 dark:bg-cyan/20 group-hover:bg-cyan/20 dark:group-hover:bg-cyan/30 [&>svg]:text-cyan dark:[&>svg]:text-cyan/90'
                 }`}>
-                    {children}
+                    <div className={`[&>svg]:size-6 transition-all duration-300 ${
+                        comingSoon 
+                            ? '' 
+                            : 'group-hover:scale-110 group-hover:rotate-3'
+                    }`}>
+                        {children}
+                    </div>
                 </div>
 
-                <div className="space-y-2 py-6">
-                    <h3 className={`text-base font-medium ${
+                <div className="space-y-3 mb-6">
+                    <h3 className={`text-lg font-semibold tracking-tight ${
                         comingSoon 
                             ? '' 
-                            : 'transition-colors duration-300 group-hover:text-primary'
+                            : 'transition-colors duration-300 group-hover:text-cyan dark:group-hover:text-cyan/90'
                     }`}>{title}</h3>
-                    <p className={`text-muted-foreground line-clamp-2 text-sm ${
+                    <p className={`text-muted-foreground line-clamp-3 text-sm leading-relaxed ${
                         comingSoon 
                             ? '' 
-                            : 'transition-colors duration-300 group-hover:text-foreground/80'
+                            : 'transition-colors duration-300 group-hover:text-foreground/90'
                     }`}>{description}</p>
                 </div>
 
-                <div className={`flex gap-3 border-t border-dashed pt-6 ${
+                <div className={`flex gap-3 border-t pt-6 ${
                     comingSoon 
-                        ? '' 
-                        : 'transition-colors duration-300 group-hover:border-primary/30'
+                        ? 'border-border/50' 
+                        : 'border-border/50 transition-colors duration-300 group-hover:border-cyan/30 dark:group-hover:border-cyan/40'
                 }`}>
                     {comingSoon ? (
                         <Button
@@ -136,11 +159,11 @@ const IntegrationCard = ({
                             asChild
                             variant="secondary"
                             size="sm"
-                            className="gap-1 pr-2 shadow-none transition-all duration-300 group-hover:bg-white group-hover:text-black dark:group-hover:bg-white dark:group-hover:text-black"
+                            className="gap-1 pr-2 shadow-none transition-all duration-300 hover:bg-cyan hover:text-cyan-foreground hover:shadow-md hover:shadow-cyan/20 group-hover:bg-cyan group-hover:text-cyan-foreground group-hover:shadow-md group-hover:shadow-cyan/20"
                         >
                             <Link href={link} className="flex items-center gap-1">
                                 Get Started
-                                <FaChevronRight className="ml-0 !size-3.5 opacity-50 transition-transform duration-300 group-hover:translate-x-1 group-hover:opacity-100" />
+                                <FaChevronRight className="ml-0 !size-3.5 opacity-50 transition-all duration-300 group-hover:translate-x-1 group-hover:opacity-100 hover:translate-x-1 hover:opacity-100" />
                             </Link>
                         </Button>
                     )}

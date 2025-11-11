@@ -26,7 +26,7 @@ export default function Layout({ children }: { children: ReactNode }) {
           transition={{ duration: 0.25, ease: 'easeOut' }}
           className='min-h-screen w-full flex justify-center bg-background'
         >
-          <div className='w-full max-w-5xl px-6 pt-12 pb-16'>
+          <div className='w-full max-w-5xl px-6 pt-6 pb-16'>
             {children}
           </div>
         </motion.div>

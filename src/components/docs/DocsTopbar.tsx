@@ -5,6 +5,7 @@ import DarkModeToggle from '../DarkModeToggle'
 import Image from 'next/image'
 import Link from 'next/link'
 import { FaFishFins } from "react-icons/fa6";
+import { GiPenguin } from "react-icons/gi";
 import { useEffect, useState } from 'react'
 import { useTheme } from 'next-themes'
 const DocsTopbar = () => {
@@ -59,11 +60,8 @@ const DocsTopbar = () => {
 
           {/* User account showcase */}
           <div className='flex items-center gap-2'>
-            <Image
-              src={currentAvatar}
-              alt='User avatar'
-              width={28}
-              height={28}
+              <GiPenguin
+              size={24}
               className='rounded-full object-cover ring-1 ring-border'
             />
             <span className='text-sm font-semibold tracking-wide'>{username}</span>
