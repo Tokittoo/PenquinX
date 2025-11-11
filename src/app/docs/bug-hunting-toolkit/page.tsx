@@ -66,7 +66,7 @@ export default function Page() {
 					{/* Hero Section */}
 					<div className='text-center mb-0'>
 						<div className='inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan/10 dark:bg-cyan/20 border border-cyan/20 dark:border-cyan/30 mb-6'>
-							<span className='text-sm font-medium text-cyan dark:text-cyan/90'>Bug Hunter's Toolkit</span>
+							<span className='text-sm font-medium text-cyan dark:text-cyan/90'>Bug Hunter&apos;s Toolkit</span>
 						</div>
 						<motion.h1
 							initial={{ opacity: 0, filter: 'blur(10px)', y: 20 }}
