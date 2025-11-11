@@ -2,9 +2,8 @@
 
 import type { ReactNode } from 'react'
 
-// Override the default /docs layout to hide the sidebar for this hub page.
+// Override the default /v1 layout to hide the sidebar for this hub page.
 export default function Layout({ children }: { children: ReactNode }) {
 	return <>{children}</>
 }
-
 

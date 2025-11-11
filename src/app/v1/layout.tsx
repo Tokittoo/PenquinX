@@ -3,18 +3,18 @@
 import type { ReactNode } from 'react';
 import { MotionConfig, motion } from 'framer-motion';
 import { usePathname } from 'next/navigation';
-import DocsTopbar from '@/components/docs/DocsTopbar';
+import DocsTopbar from '@/components/v1/DocsTopbar';
 
 export default function Layout({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const hideOn = new Set<string>([
-    '/docs',
-    '/docs/bug-hunting-toolkit',
-    '/docs/hackers-to-follow',
-    '/docs/learn-the-basics',
-    '/docs/getting-started',
+    '/v1',
+    '/v1/bug-hunting-toolkit',
+    '/v1/hackers-to-follow',
+    '/v1/learn-the-basics',
+    '/v1/getting-started',
   ]);
-  const showDocsTopbar = pathname?.startsWith('/docs') && !hideOn.has(pathname);
+  const showDocsTopbar = pathname?.startsWith('/v1') && !hideOn.has(pathname);
 
   return (
     <MotionConfig>
@@ -34,3 +34,4 @@ export default function Layout({ children }: { children: ReactNode }) {
     </MotionConfig>
   );
 }
+

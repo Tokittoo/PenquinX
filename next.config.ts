@@ -17,13 +17,13 @@ const NextConfig: NextConfig = {
   async redirects() {
     return [
       {
-        source: '/v1',
-        destination: '/docs',
+        source: '/docs',
+        destination: '/v1',
         permanent: true,
       },
       {
-        source: '/v1/:path*',
-        destination: '/docs/:path*',
+        source: '/docs/:path*',
+        destination: '/v1/:path*',
         permanent: true,
       },
     ];

@@ -8,7 +8,7 @@ import { docsOrderedSlugs } from '@/lib/docsOrder';
 // @ts-ignore - JSON import for simple config
 import docsMeta from '@/../content/docs/meta.json';
 import Link from 'next/link';
-import IntegrationsPage from '@/components/docs/IntegrationsPage';
+import IntegrationsPage from '@/components/v1/IntegrationsPage';
 
 type DocsMeta = { pages?: string[] };
 
@@ -42,29 +42,29 @@ function getBreadcrumb(slug: string): { label: string; href: string }[] {
 
   if (slug === '' || slug === 'index') {
     trail = [
-      { label: 'Getting Started', href: '/docs' },
-      { label: 'Introduction', href: '/docs' },
+      { label: 'Getting Started', href: '/v1' },
+      { label: 'Introduction', href: '/v1' },
     ];
   } else if (bugHunters.has(slug)) {
     trail = [
-      { label: "Bug Hunter's Toolkit", href: '/docs/arsenal' },
-      { label: slugToTitle(slug), href: `/docs/${slug}` },
+      { label: "Bug Hunter's Toolkit", href: '/v1/arsenal' },
+      { label: slugToTitle(slug), href: `/v1/${slug}` },
     ];
   } else if (basics.has(slug)) {
     trail = [
-      { label: 'Learn the Basics', href: '/docs/cyber-security-types' },
-      { label: slugToTitle(slug), href: `/docs/${slug}` },
+      { label: 'Learn the Basics', href: '/v1/cyber-security-types' },
+      { label: slugToTitle(slug), href: `/v1/${slug}` },
     ];
   } else if (hackers.has(slug)) {
     trail = [
-      { label: 'Hackers to Follow', href: '/docs/twitter' },
-      { label: slugToTitle(slug), href: `/docs/${slug}` },
+      { label: 'Hackers to Follow', href: '/v1/twitter' },
+      { label: slugToTitle(slug), href: `/v1/${slug}` },
     ];
   } else {
-    trail = [{ label: slugToTitle(slug || 'docs'), href: `/docs/${slug}` }];
+    trail = [{ label: slugToTitle(slug || 'docs'), href: `/v1/${slug}` }];
   }
 
-  return [{ label: 'Docs', href: '/docs' }, ...trail];
+  return [{ label: 'Docs', href: '/v1' }, ...trail];
 }
 
 function slugToTitle(slug: string): string {
@@ -177,3 +177,4 @@ export async function generateMetadata(props: { params: Promise<{ slug?: string[
 
   return { title: page.data.title, description: page.data.description };
 }
+

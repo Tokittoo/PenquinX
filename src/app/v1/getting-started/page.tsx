@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { motion } from 'motion/react'
-import BugHunterCarousel from '@/app/docs/BugHunterCarousel'
+import BugHunterCarousel from '@/app/v1/BugHunterCarousel'
 
 const gettingStartedItems = [
 	{
@@ -41,7 +41,7 @@ export default function Page() {
 						singleMode
 						items={gettingStartedItems.map((item) => ({
 							...item,
-							href: `/docs/${item.slug}`,
+							href: `/v1/${item.slug}`,
 						}))}
 					/>
 				</div>
@@ -49,5 +49,4 @@ export default function Page() {
 		</section>
 	)
 }
-
 

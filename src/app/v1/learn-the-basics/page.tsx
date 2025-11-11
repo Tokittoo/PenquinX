@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { motion } from 'motion/react'
-import BugHunterCarousel from '@/app/docs/BugHunterCarousel'
+import BugHunterCarousel from '@/app/v1/BugHunterCarousel'
 
 const basicsItems = [
 	{
@@ -89,7 +89,7 @@ export default function Page() {
 						className="-mt-4"
 						items={basicsItems.map((item) => ({
 							...item,
-							href: `/docs/${item.slug}`,
+							href: `/v1/${item.slug}`,
 						}))}
 					/>
 				</div>
@@ -97,5 +97,4 @@ export default function Page() {
 		</section>
 	)
 }
-
 

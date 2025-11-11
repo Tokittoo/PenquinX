@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { motion } from 'motion/react'
-import BugHunterCarousel from '@/app/docs/BugHunterCarousel'
+import BugHunterCarousel from '@/app/v1/BugHunterCarousel'
 
 const toolkitItems = [
 	{
@@ -55,9 +55,6 @@ const toolkitItems = [
 	},
 ]
 
-// Show the exact same integrations grid used on /docs
-// This mirrors the screenshot the user referenced.
-
 export default function Page() {
 	return (
 		<section className='min-h-screen bg-background'>
@@ -83,7 +80,7 @@ export default function Page() {
 						className="-mt-4"
 						items={toolkitItems.map((item) => ({
 							...item,
-							href: `/docs/${item.slug}`,
+							href: `/v1/${item.slug}`,
 						}))}
 					/>
 				</div>
@@ -91,5 +88,4 @@ export default function Page() {
 		</section>
 	)
 }
-
 
