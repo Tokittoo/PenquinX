@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react'
 const DocsTopbar = () => {
 
   const [credits, setCredits] = useState<number>(0)
-  const [username, setUsername] = useState<string>('KRISHNA')
+  const [username, setUsername] = useState<string>('Username')
 
 
   useEffect(() => {
