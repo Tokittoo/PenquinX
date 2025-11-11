@@ -37,7 +37,7 @@ export default function Page() {
 					</div>
 
 					<BugHunterCarousel
-						className="-mt-4"
+						className="mt-12 md:-mt-12"
 						singleMode
 						items={gettingStartedItems.map((item) => ({
 							...item,

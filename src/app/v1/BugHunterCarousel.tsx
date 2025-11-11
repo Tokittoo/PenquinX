@@ -42,6 +42,18 @@ type BugHunterCarouselProps = {
 
 export default function BugHunterCarousel({ items, className, label, singleMode }: BugHunterCarouselProps) {
 	const [index, setIndex] = React.useState(0)
+	const [isMobile, setIsMobile] = React.useState(false)
+
+	React.useEffect(() => {
+		const checkMobile = () => {
+			setIsMobile(window.innerWidth < 768)
+		}
+		
+		checkMobile()
+		window.addEventListener('resize', checkMobile)
+		
+		return () => window.removeEventListener('resize', checkMobile)
+	}, [])
 
 	if (items.length === 0) return null
 
@@ -58,36 +70,72 @@ export default function BugHunterCarousel({ items, className, label, singleMode 
 		let opacity = 1
 		let scale = 1
 
-		if (diff === 0) {
-			// Current card - center
-			transform = "translateX(0px) translateZ(0px) rotateY(0deg)"
-			zIndex = 10
-			opacity = 1
-			scale = 1
-		} else if (diff === 1 || (diff === -(items.length - 1))) {
-			// Next card - right side
-			transform = "translateX(350px) translateZ(-100px) rotateY(-15deg)"
-			zIndex = 8
-			opacity = 0.8
-			scale = 0.9
-		} else if (diff === -1 || (diff === items.length - 1)) {
-			// Previous card - left side
-			transform = "translateX(-350px) translateZ(-100px) rotateY(15deg)"
-			zIndex = 8
-			opacity = 0.8
-			scale = 0.9
-		} else if (Math.abs(diff) === 2) {
-			// Second layer
-			transform = "translateX(0px) translateZ(-200px) rotateY(0deg)"
-			zIndex = 5
-			opacity = 0.3
-			scale = 0.85
+		if (isMobile) {
+			// Mobile: simpler horizontal slide without 3D rotation
+			if (diff === 0) {
+				// Current card - center
+				transform = "translateX(0px) translateZ(0px)"
+				zIndex = 10
+				opacity = 1
+				scale = 1
+			} else if (diff === 1 || (diff === -(items.length - 1))) {
+				// Next card - right side (reduced distance for mobile)
+				transform = "translateX(180px) translateZ(-50px)"
+				zIndex = 8
+				opacity = 0.6
+				scale = 0.75
+			} else if (diff === -1 || (diff === items.length - 1)) {
+				// Previous card - left side (reduced distance for mobile)
+				transform = "translateX(-180px) translateZ(-50px)"
+				zIndex = 8
+				opacity = 0.6
+				scale = 0.75
+			} else if (Math.abs(diff) === 2) {
+				// Second layer
+				transform = "translateX(0px) translateZ(-100px)"
+				zIndex = 5
+				opacity = 0.2
+				scale = 0.65
+			} else {
+				// Far cards
+				transform = "translateX(0px) translateZ(-200px)"
+				zIndex = 1
+				opacity = 0
+				scale = 0.5
+			}
 		} else {
-			// Far cards
-			transform = "translateX(0px) translateZ(-400px) rotateY(0deg)"
-			zIndex = 1
-			opacity = 0
-			scale = 0.8
+			// Desktop: full 3D effect
+			if (diff === 0) {
+				// Current card - center
+				transform = "translateX(0px) translateZ(0px) rotateY(0deg)"
+				zIndex = 10
+				opacity = 1
+				scale = 1
+			} else if (diff === 1 || (diff === -(items.length - 1))) {
+				// Next card - right side
+				transform = "translateX(350px) translateZ(-100px) rotateY(-15deg)"
+				zIndex = 8
+				opacity = 0.8
+				scale = 0.9
+			} else if (diff === -1 || (diff === items.length - 1)) {
+				// Previous card - left side
+				transform = "translateX(-350px) translateZ(-100px) rotateY(15deg)"
+				zIndex = 8
+				opacity = 0.8
+				scale = 0.9
+			} else if (Math.abs(diff) === 2) {
+				// Second layer
+				transform = "translateX(0px) translateZ(-200px) rotateY(0deg)"
+				zIndex = 5
+				opacity = 0.3
+				scale = 0.85
+			} else {
+				// Far cards
+				transform = "translateX(0px) translateZ(-400px) rotateY(0deg)"
+				zIndex = 1
+				opacity = 0
+				scale = 0.8
+			}
 		}
 
 		return {
@@ -108,12 +156,12 @@ export default function BugHunterCarousel({ items, className, label, singleMode 
 			) : null}
 
 			<div 
-				className='relative h-[420px] sm:h-[520px] flex items-center justify-center'
-				style={{ perspective: "1200px" }}
+				className='relative h-[400px] sm:h-[520px] flex items-center justify-center overflow-hidden sm:overflow-visible px-2 sm:px-0'
+				style={{ perspective: isMobile ? "800px" : "1200px" }}
 			>
 
 				{isSingle ? (
-					<div className='relative w-[320px] sm:w-[500px]'>
+					<div className='relative w-[280px] sm:w-[500px] max-w-[calc(100vw-3rem)]'>
 						<SlideCard item={items[0]} active />
 					</div>
 				) : (
@@ -125,7 +173,7 @@ export default function BugHunterCarousel({ items, className, label, singleMode 
 							return (
 								<motion.div
 									key={`${item.href}-${cardIndex}`}
-									className='absolute top-1/2 left-1/2 w-[320px] sm:w-[500px]'
+									className='absolute top-1/2 left-1/2 w-[280px] sm:w-[500px] max-w-[calc(100vw-3rem)]'
 									style={{
 										transform: `translate(-50%, -50%) ${style.transform}`,
 										zIndex: style.zIndex,
@@ -150,19 +198,19 @@ export default function BugHunterCarousel({ items, className, label, singleMode 
 			</div>
 
 			{!isSingle && items.length > 1 ? (
-				<div className='-mt-20 flex flex-wrap items-center justify-center gap-5 relative z-50'>
+				<div className='-mt-12 sm:-mt-20 flex items-center justify-center gap-2 sm:gap-5 relative z-50 px-4 pb-2'>
 					<button
 						type='button'
 						onClick={() => goTo(index - 1)}
-						className='inline-flex h-10 w-10 items-center justify-center rounded-full border border-border text-muted-foreground transition-colors hover:bg-cyan/10 hover:border-cyan/30 hover:text-cyan dark:hover:bg-cyan/20 dark:hover:border-cyan/40 relative z-50'
+						className='inline-flex h-12 w-12 sm:h-10 sm:w-10 items-center justify-center rounded-full border border-border text-muted-foreground transition-colors active:bg-cyan/10 active:border-cyan/30 active:text-cyan hover:bg-cyan/10 hover:border-cyan/30 hover:text-cyan dark:hover:bg-cyan/20 dark:hover:border-cyan/40 dark:active:bg-cyan/20 dark:active:border-cyan/40 relative z-50 touch-manipulation'
 						aria-label='Previous slide'
 					>
-						<svg xmlns='http://www.w3.org/2000/svg' className='h-4 w-4' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2'>
+						<svg xmlns='http://www.w3.org/2000/svg' className='h-5 w-5 sm:h-4 sm:w-4' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2'>
 							<path d='M15 18l-6-6 6-6' />
 						</svg>
 					</button>
 
-					<div className='flex items-center gap-4'>
+					<div className='flex items-center gap-2 sm:gap-4'>
 						{items.map((item, i) => {
 							const active = i === index
 							return (
@@ -171,10 +219,10 @@ export default function BugHunterCarousel({ items, className, label, singleMode 
 									type='button'
 									onClick={() => goTo(i)}
 									className={cn(
-										'h-3 w-3 rounded-full border border-border transition-all relative z-50',
+										'h-2.5 w-2.5 sm:h-3 sm:w-3 rounded-full border border-border transition-all relative z-50 touch-manipulation',
 										active
-											? 'bg-cyan border-cyan scale-125 shadow-[0_0_0_6px] shadow-cyan/25'
-											: 'hover:bg-cyan/20 hover:border-cyan/40',
+											? 'bg-cyan border-cyan scale-125 shadow-[0_0_0_4px] sm:shadow-[0_0_0_6px] shadow-cyan/25'
+											: 'active:bg-cyan/20 active:border-cyan/40 hover:bg-cyan/20 hover:border-cyan/40',
 									)}
 									aria-label={`Go to slide ${i + 1}`}
 								/>
@@ -185,10 +233,10 @@ export default function BugHunterCarousel({ items, className, label, singleMode 
 					<button
 						type='button'
 						onClick={() => goTo(index + 1)}
-						className='inline-flex h-10 w-10 items-center justify-center rounded-full border border-border text-muted-foreground transition-colors hover:bg-cyan/10 hover:border-cyan/30 hover:text-cyan dark:hover:bg-cyan/20 dark:hover:border-cyan/40 relative z-50'
+						className='inline-flex h-12 w-12 sm:h-10 sm:w-10 items-center justify-center rounded-full border border-border text-muted-foreground transition-colors active:bg-cyan/10 active:border-cyan/30 active:text-cyan hover:bg-cyan/10 hover:border-cyan/30 hover:text-cyan dark:hover:bg-cyan/20 dark:hover:border-cyan/40 dark:active:bg-cyan/20 dark:active:border-cyan/40 relative z-50 touch-manipulation'
 						aria-label='Next slide'
 					>
-						<svg xmlns='http://www.w3.org/2000/svg' className='h-4 w-4' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2'>
+						<svg xmlns='http://www.w3.org/2000/svg' className='h-5 w-5 sm:h-4 sm:w-4' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2'>
 							<path d='M9 6l6 6-6 6' />
 						</svg>
 					</button>

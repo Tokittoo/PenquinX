@@ -161,7 +161,7 @@ export async function generateMetadata(props: { params: Promise<{ slug?: string[
   // If slug is empty, return metadata for integrations page
   if (!params.slug || params.slug.length === 0) {
     return { 
-      title: 'index', 
+      title: 'Index', 
       description: 'Connect seamlessly with popular platforms and services to enhance your workflow.' 
     };
   }

@@ -77,7 +77,7 @@ export default function Page() {
 						</p>
 					</div>
 					<BugHunterCarousel
-						className="-mt-4"
+						className="mt-12 md:-mt-12"
 						items={toolkitItems.map((item) => ({
 							...item,
 							href: `/v1/${item.slug}`,
