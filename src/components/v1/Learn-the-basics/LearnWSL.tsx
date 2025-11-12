@@ -108,7 +108,9 @@ export function LearnWSL() {
     toastTimerRef.current = window.setTimeout(() => setToast(null), 1600)
   }
 
-  const renderSection = (title: string, subtitle: string, items: any[], renderItem: (item: any, index: number) => React.ReactNode) => {
+  type SectionItem = { title: string; body?: string; code?: string[] }
+
+  const renderSection = (title: string, subtitle: string, items: SectionItem[], renderItem: (item: SectionItem, index: number) => React.ReactNode) => {
     return (
       <motion.div
         initial={{ opacity: 0, y: 30 }}
