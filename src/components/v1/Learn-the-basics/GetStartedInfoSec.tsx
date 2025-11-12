@@ -3,6 +3,8 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
+import { Card } from '@/components/ui/card'
+import { FaChevronRight } from 'react-icons/fa'
 
 const codeBlock = (lines: string[]) => (
   <pre className="relative overflow-auto border border-tint-subtle bg-tint-subtle theme-muted:bg-tint-base p-2 rounded-md shadow-xs">
@@ -20,26 +22,41 @@ export function GetStartedInfoSec() {
   return (
     <div className="space-y-8">
       {/* Notion Roadmap link */}
-      <div className="space-y-2">
-        <p className="text-base">This Page is shifted here:</p>
+      <div className="space-y-3">
+        <p className="text-base text-muted-foreground">This Page is shifted here:</p>
         <motion.a
-          className="group flex flex-row justify-between items-center gap-4 ring-1 ring-tint-subtle rounded-2xl px-5 py-3 transition-shadow hover:ring-primary-hover no-underline"
           href="https://whimsical-poultry-9ad.notion.site/The-Most-Practical-Cyber-Security-Roadmap-133b841caed9806c9b8be6e59a8236a2"
           target="_blank"
           rel="noopener noreferrer"
+          className="block no-underline"
         >
-          <Image
-            alt="Notion"
-            src="https://www.notion.so/front-static/logo-ios.png"
-            width={20}
-            height={20}
-            className="w-5 h-5 block"
-          />
-          <span className="flex flex-col flex-1">
-            <span className="text-base transition-colors group-hover:text-primary">The Most Practical Cyber Security Roadmap | Notion</span>
-            <span className="text-xs text-muted-foreground">whimsical-poultry-9ad on Notion</span>
-          </span>
-          <i className="fas fa-chevron-right text-muted-foreground group-hover:text-primary text-xs"></i>
+          <Card className="group relative overflow-hidden border-border/50 hover:border-primary/30 dark:hover:border-primary/40 hover:shadow-lg hover:scale-[1.01] transition-all duration-300 cursor-pointer">
+            {/* Subtle gradient overlay on hover */}
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/0 to-primary/0 transition-opacity duration-300 pointer-events-none group-hover:from-primary/5 group-hover:to-primary/0 dark:group-hover:from-primary/10 dark:group-hover:to-primary/0" />
+            
+            <div className="relative z-10 flex flex-row items-center gap-4 p-5">
+              <div className="flex-shrink-0">
+                <Image
+                  alt="Notion"
+                  src="https://www.notion.so/front-static/logo-ios.png"
+                  width={24}
+                  height={24}
+                  className="w-6 h-6"
+                />
+              </div>
+              <div className="flex flex-col flex-1 min-w-0">
+                <span className="text-base font-medium transition-colors duration-300 group-hover:text-primary">
+                  The Most Practical Cyber Security Roadmap | Notion
+                </span>
+                <span className="text-xs text-muted-foreground mt-0.5">
+                  whimsical-poultry-9ad on Notion
+                </span>
+              </div>
+              <div className="flex-shrink-0">
+                <FaChevronRight className="text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all duration-300 text-sm" />
+              </div>
+            </div>
+          </Card>
         </motion.a>
       </div>
 

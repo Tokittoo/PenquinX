@@ -1,6 +1,8 @@
 'use client'
 
 import React from 'react'
+import { motion } from 'framer-motion'
+import { Card } from '@/components/ui/card'
 
 interface CommandPair {
   leftCmd: string
@@ -116,47 +118,75 @@ const commands: CommandPair[] = [
 
 export function CLICommands() {
   return (
-    <div className="space-y-6">
-      
-        <div className="hidden sm:grid grid-cols-12 items-stretch">
-          <div className="col-span-2 px-4 py-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Command</div>
-          <div className="col-span-4 px-4 py-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Description</div>
-          <div className="col-span-1 px-4 py-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground">#</div>
-          <div className="col-span-2 px-4 py-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Command</div>
-          <div className="col-span-3 px-4 py-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Description</div>
+    <div className="space-y-8">
+      {/* Header Info */}
+      <div className="rounded-lg border-2 border-primary/30 bg-primary/5 dark:bg-primary/10 p-6">
+        <div className="space-y-2">
+          <h2 className="text-2xl font-bold tracking-tight">CLI Commands Reference</h2>
+          <p className="text-sm text-muted-foreground">
+            Quick reference comparing Unix/Linux and Windows command-line equivalents
+          </p>
         </div>
-        <div className="divide-y divide-border">
-          {commands.map((row) => (
-            <div
-              key={`${row.idx}-${row.leftCmd}-${row.rightCmd}`}
-              className="grid grid-cols-1 sm:grid-cols-12 items-start hover:bg-accent/40 transition-colors"
-            >
-              <div className="px-4 py-3 sm:col-span-2 text-sm font-mono">
-                <div className="sm:hidden text-[10px] uppercase tracking-wide text-muted-foreground mb-1">Unix</div>
-                {row.leftCmd && (
-                  <code className="py-0.5 px-1.5 ring-1 ring-inset ring-tint bg-tint rounded-sm text-[.875em]">{row.leftCmd}</code>
-                )}
+      </div>
+
+      {/* Commands Grid */}
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {commands.map((row, index) => (
+          <motion.div
+            key={`${row.idx}-${row.leftCmd}-${row.rightCmd}`}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: index * 0.02 }}
+          >
+            <Card className="group relative h-full border-border/50 hover:border-primary/30 dark:hover:border-primary/40 hover:shadow-lg transition-all duration-300 overflow-hidden">
+              {/* Subtle gradient overlay on hover */}
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/0 to-primary/0 transition-opacity duration-300 pointer-events-none group-hover:from-primary/5 group-hover:to-primary/0 dark:group-hover:from-primary/10 dark:group-hover:to-primary/0" />
+              
+              <div className="relative z-10 p-5 space-y-4">
+                {/* Index Badge */}
+                <div className="flex items-center justify-between">
+                  <span className="inline-flex items-center rounded-full border border-border bg-muted/50 px-2.5 py-0.5 text-xs font-semibold text-muted-foreground">
+                    #{row.idx}
+                  </span>
+                </div>
+
+                {/* Unix Command */}
+                <div className="space-y-2">
+                  <div className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+                    Unix / Linux
+                  </div>
+                  <div className="space-y-1.5">
+                    <code className="block py-1.5 px-3 bg-muted/50 border border-border rounded-md text-sm font-mono text-foreground group-hover:bg-muted group-hover:border-primary/30 transition-colors duration-300">
+                      {row.leftCmd}
+                    </code>
+                    <p className="text-xs text-muted-foreground leading-relaxed">
+                      {row.leftDesc}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Divider */}
+                <div className="border-t border-border/50 group-hover:border-primary/30 dark:group-hover:border-primary/40 transition-colors duration-300" />
+
+                {/* Windows Command */}
+                <div className="space-y-2">
+                  <div className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+                    Windows
+                  </div>
+                  <div className="space-y-1.5">
+                    <code className="block py-1.5 px-3 bg-muted/50 border border-border rounded-md text-sm font-mono font-semibold text-foreground group-hover:bg-muted group-hover:border-primary/30 transition-colors duration-300">
+                      {row.rightCmd}
+                    </code>
+                    <p className="text-xs text-muted-foreground leading-relaxed">
+                      {row.rightDesc}
+                    </p>
+                  </div>
+                </div>
               </div>
-              <div className="px-4 py-3 sm:col-span-4 text-sm text-muted-foreground">
-                <div className="sm:hidden text-[10px] uppercase tracking-wide text-muted-foreground mb-1">Description</div>
-                {row.leftDesc}
-              </div>
-              <div className="px-4 py-3 sm:col-span-1 text-sm">
-                <div className="sm:hidden text-[10px] uppercase tracking-wide text-muted-foreground mb-1">#</div>
-                {row.idx}
-              </div>
-              <div className="px-4 py-3 sm:col-span-2 text-sm font-semibold">
-                <div className="sm:hidden text-[10px] uppercase tracking-wide text-muted-foreground mb-1">Windows</div>
-                {row.rightCmd}
-              </div>
-              <div className="px-4 py-3 sm:col-span-3 text-sm text-muted-foreground">
-                <div className="sm:hidden text-[10px] uppercase tracking-wide text-muted-foreground mb-1">Description</div>
-                {row.rightDesc}
-              </div>
-            </div>
-          ))}
-        </div>
-      
+            </Card>
+          </motion.div>
+        ))}
+      </div>
     </div>
   )
 }

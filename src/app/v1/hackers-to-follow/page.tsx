@@ -2,6 +2,9 @@
 
 import React from 'react'
 import { motion } from 'motion/react'
+import Link from 'next/link'
+import { Button } from '@/components/ui/button'
+import { FaChevronLeft } from 'react-icons/fa'
 import BugHunterCarousel from '@/app/v1/BugHunterCarousel'
 
 const hackersItems = [
@@ -47,6 +50,21 @@ export default function Page() {
 		<section className='min-h-screen bg-background'>
 			<div className='pt-8 pb-16 md:pt-12 md:pb-24'>
 				<div className='mx-auto max-w-6xl px-6'>
+					{/* Back Button */}
+					<div className='mb-8'>
+						<Button
+							asChild
+							variant="ghost"
+							size="sm"
+							className="group gap-2 text-muted-foreground hover:text-cyan hover:bg-cyan/10 dark:hover:bg-cyan/20 transition-all duration-300"
+						>
+							<Link href="/v1" className="flex items-center gap-2">
+								<FaChevronLeft className="size-4 transition-transform duration-300 group-hover:-translate-x-1" />
+								Back to Docs
+							</Link>
+						</Button>
+					</div>
+
 					{/* Hero Section */}
 					<div className='text-center mb-0'>
 						<div className='inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan/10 dark:bg-cyan/20 border border-cyan/20 dark:border-cyan/30 mb-6'>

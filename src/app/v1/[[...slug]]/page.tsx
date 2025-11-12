@@ -38,30 +38,34 @@ function getBreadcrumb(slug: string): { label: string; href: string }[] {
   ]);
   const hackers = new Set(['twitter', 'medium', 'youtube', 'discord', 'security-gitbooks']);
 
+  // Handle nested slugs (e.g., "getting-started/index")
+  const slugParts = slug.split('/');
+  const firstPart = slugParts[0];
+
   let trail: { label: string; href: string }[];
 
-  if (slug === '' || slug === 'index') {
+  if (slug === '' || slug === 'index' || (firstPart === 'getting-started' && slugParts.length > 1)) {
     trail = [
-      { label: 'Getting Started', href: '/v1' },
-      { label: 'Introduction', href: '/v1' },
+      { label: 'Getting Started', href: '/v1/getting-started' },
+      { label: slugToTitle(slugParts[slugParts.length - 1] || 'index'), href: `/v1/${slug}` },
     ];
-  } else if (bugHunters.has(slug)) {
+  } else if (bugHunters.has(firstPart)) {
     trail = [
-      { label: "Bug Hunter's Toolkit", href: '/v1/arsenal' },
-      { label: slugToTitle(slug), href: `/v1/${slug}` },
+      { label: "Bug Hunter's Toolkit", href: '/v1/bug-hunting-toolkit' },
+      { label: slugToTitle(firstPart), href: `/v1/${slug}` },
     ];
-  } else if (basics.has(slug)) {
+  } else if (basics.has(firstPart)) {
     trail = [
-      { label: 'Learn the Basics', href: '/v1/cyber-security-types' },
-      { label: slugToTitle(slug), href: `/v1/${slug}` },
+      { label: 'Learn the Basics', href: '/v1/learn-the-basics' },
+      { label: slugToTitle(firstPart), href: `/v1/${slug}` },
     ];
-  } else if (hackers.has(slug)) {
+  } else if (hackers.has(firstPart)) {
     trail = [
-      { label: 'Hackers to Follow', href: '/v1/twitter' },
-      { label: slugToTitle(slug), href: `/v1/${slug}` },
+      { label: 'Hackers to Follow', href: '/v1/hackers-to-follow' },
+      { label: slugToTitle(firstPart), href: `/v1/${slug}` },
     ];
   } else {
-    trail = [{ label: slugToTitle(slug || 'docs'), href: `/v1/${slug}` }];
+    trail = [{ label: slugToTitle(firstPart || slug || 'docs'), href: `/v1/${slug}` }];
   }
 
   return [{ label: 'Docs', href: '/v1' }, ...trail];

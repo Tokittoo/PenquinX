@@ -1,7 +1,8 @@
 'use client'
 
-import React from 'react'
+import React, { useMemo } from 'react'
 import { motion } from 'framer-motion'
+import { Card } from '@/components/ui/card'
 
 interface SecurityType {
   category: string
@@ -9,6 +10,8 @@ interface SecurityType {
   roles: string
   beginner: string
 }
+
+type BeginnerLevel = 'yes' | 'moderate' | 'no'
 
 const types: SecurityType[] = [
   {
@@ -110,42 +113,168 @@ const types: SecurityType[] = [
 ]
 
 export function CyberSecurityTypes() {
-  return (
-    <div className="space-y-6">
-        <div className="hidden sm:grid grid-cols-12 items-stretch">
-          <div className="col-span-3 px-4 py-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Type of Cybersecurity</div>
-          <div className="col-span-4 px-4 py-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Description</div>
-          <div className="col-span-3 px-4 py-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Related Job Roles</div>
-          <div className="col-span-2 px-4 py-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Suitable for Beginners</div>
+  const categorizedTypes = useMemo(() => {
+    const yes: SecurityType[] = []
+    const moderate: SecurityType[] = []
+    const no: SecurityType[] = []
+
+    types.forEach((type) => {
+      const beginner = type.beginner.toLowerCase()
+      if (beginner.startsWith('yes')) {
+        yes.push(type)
+      } else if (beginner.startsWith('moderate')) {
+        moderate.push(type)
+      } else {
+        no.push(type)
+      }
+    })
+
+    return { yes, moderate, no }
+  }, [])
+
+  const getLevelInfo = (level: BeginnerLevel) => {
+    switch (level) {
+      case 'yes':
+        return {
+          title: 'Beginner Friendly',
+          subtitle: 'Ideal starting points for newcomers',
+          count: categorizedTypes.yes.length,
+          color: 'border-primary/30 bg-primary/5 dark:bg-primary/10',
+          badgeColor: 'bg-primary/10 text-primary border-primary/20 dark:bg-primary/20 dark:text-primary dark:border-primary/30',
+        }
+      case 'moderate':
+        return {
+          title: 'Moderate Difficulty',
+          subtitle: 'Requires some foundational knowledge',
+          count: categorizedTypes.moderate.length,
+          color: 'border-secondary/30 bg-secondary/5 dark:bg-secondary/10',
+          badgeColor: 'bg-secondary/10 text-secondary-foreground border-secondary/20 dark:bg-secondary/20 dark:text-secondary-foreground dark:border-secondary/30',
+        }
+      case 'no':
+        return {
+          title: 'Advanced Level',
+          subtitle: 'Requires specialized knowledge and experience',
+          count: categorizedTypes.no.length,
+          color: 'border-muted-foreground/30 bg-muted/5 dark:bg-muted/10',
+          badgeColor: 'bg-muted text-muted-foreground border-border',
+        }
+    }
+  }
+
+  const renderSection = (level: BeginnerLevel, items: SecurityType[]) => {
+    const info = getLevelInfo(level)
+
+    return (
+      <motion.div
+        key={level}
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="space-y-6"
+      >
+        {/* Section Header */}
+        <div className={`rounded-lg border-2 p-6 ${info.color}`}>
+          <div className="flex items-start justify-between gap-4">
+            <div className="space-y-1">
+              <div className="flex items-center gap-3">
+                <h2 className="text-2xl font-bold tracking-tight">{info.title}</h2>
+                <span className="inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold bg-background/50">
+                  {info.count} domains
+                </span>
+              </div>
+              <p className="text-sm text-muted-foreground">{info.subtitle}</p>
+            </div>
+          </div>
         </div>
 
-        <div className="divide-y divide-border">
-          {types.map((t) => (
+        {/* Cards Grid */}
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {items.map((t, index) => (
             <motion.div
               key={t.category}
-              
-              className="grid grid-cols-1 sm:grid-cols-12 items-start hover:bg-accent/40 transition-colors"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: index * 0.05 }}
             >
-              <div className="px-4 py-3 sm:col-span-3">
-                <div className="sm:hidden text-[10px] uppercase tracking-wide text-muted-foreground mb-1">Type</div>
-                <div className="font-medium">{t.category}</div>
-              </div>
-              <div className="px-4 py-3 sm:col-span-4">
-                <div className="sm:hidden text-[10px] uppercase tracking-wide text-muted-foreground mb-1">Description</div>
-                <div className="text-sm text-muted-foreground">{t.description}</div>
-              </div>
-              <div className="px-4 py-3 sm:col-span-3">
-                <div className="sm:hidden text-[10px] uppercase tracking-wide text-muted-foreground mb-1">Roles</div>
-                <div className="text-sm text-muted-foreground">{t.roles}</div>
-              </div>
-              <div className="px-4 py-3 sm:col-span-2">
-                <div className="sm:hidden text-[10px] uppercase tracking-wide text-muted-foreground mb-1">Beginners</div>
-                <div className="text-sm">{t.beginner}</div>
-              </div>
+              <Card className="group h-full border-border/50 hover:border-border hover:shadow-md transition-all duration-300">
+                <div className="p-5 space-y-4">
+                  {/* Category Title */}
+                  <div className="space-y-2">
+                    <h3 className="text-base font-bold tracking-tight leading-tight group-hover:text-primary transition-colors">
+                      {t.category}
+                    </h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed line-clamp-2">
+                      {t.description}
+                    </p>
+                  </div>
+
+                  {/* Divider */}
+                  <div className="border-t border-border/50" />
+
+                  {/* Job Roles */}
+                  <div className="space-y-1.5">
+                    <div className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+                      Career Paths
+                    </div>
+                    <div className="text-xs text-foreground/80 leading-relaxed">
+                      {t.roles}
+                    </div>
+                  </div>
+
+                  {/* Beginner Badge */}
+                  <div className="pt-2">
+                    <span className={`inline-flex items-center rounded-md border px-2.5 py-1 text-xs font-medium ${info.badgeColor}`}>
+                      {t.beginner}
+                    </span>
+                  </div>
+                </div>
+              </Card>
             </motion.div>
           ))}
         </div>
-     </div>
+      </motion.div>
+    )
+  }
+
+  return (
+    <div className="space-y-12">
+      {/* Overview Stats */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="grid grid-cols-1 md:grid-cols-3 gap-4"
+      >
+        <Card className="p-5 border-border/50">
+          <div className="space-y-2">
+            <div className="text-3xl font-bold text-primary">{categorizedTypes.yes.length}</div>
+            <div className="text-sm font-medium">Beginner Friendly</div>
+            <div className="text-xs text-muted-foreground">Great starting points</div>
+          </div>
+        </Card>
+        <Card className="p-5 border-border/50">
+          <div className="space-y-2">
+            <div className="text-3xl font-bold text-secondary-foreground">{categorizedTypes.moderate.length}</div>
+            <div className="text-sm font-medium">Moderate Difficulty</div>
+            <div className="text-xs text-muted-foreground">Some experience needed</div>
+          </div>
+        </Card>
+        <Card className="p-5 border-border/50">
+          <div className="space-y-2">
+            <div className="text-3xl font-bold text-muted-foreground">{categorizedTypes.no.length}</div>
+            <div className="text-sm font-medium">Advanced Level</div>
+            <div className="text-xs text-muted-foreground">Specialized knowledge</div>
+          </div>
+        </Card>
+      </motion.div>
+
+      {/* Categorized Sections */}
+      <div className="space-y-12">
+        {renderSection('yes', categorizedTypes.yes)}
+        {renderSection('moderate', categorizedTypes.moderate)}
+        {renderSection('no', categorizedTypes.no)}
+      </div>
+    </div>
   )
 }
 

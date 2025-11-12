@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import Link from 'next/link'
 import * as React from 'react'
-import { FaBookOpen, FaChevronRight, FaRocket } from 'react-icons/fa'
+import { FaBookOpen, FaChevronRight, FaChevronLeft, FaRocket } from 'react-icons/fa'
 import { GiCrossedSwords } from 'react-icons/gi'
 import { FaUserSecret } from 'react-icons/fa6'
 
@@ -13,25 +13,25 @@ export default function IntegrationsPage() {
             title: "Getting Started",
             description: "Start your journey with comprehensive guides and tutorials to get you up and running quickly.",
             icon: <FaRocket />,
-            link: "/docs/getting-started"
+            link: "/v1/getting-started"
         },
         {
             title: "Learn the Basics",
             description: "Master the fundamentals of cybersecurity, bug hunting, and ethical hacking with structured learning paths.",
             icon: <FaBookOpen />,
-            link: "/docs/learn-the-basics"
+            link: "/v1/learn-the-basics"
         },
         {
             title: "Hackers to Follow",
             description: "Connect with top security researchers, bug bounty hunters, and cybersecurity experts across platforms.",
             icon: <FaUserSecret />,
-            link: "/docs/hackers-to-follow"
+            link: "/v1/hackers-to-follow"
         },
         {
             title: "Bug Hunter's Toolkit",
             description: "Essential tools and resources for bug bounty hunters. Everything you need to find and report vulnerabilities.",
             icon: <GiCrossedSwords />,
-            link: "/docs/bug-hunting-toolkit"
+            link: "/v1/bug-hunting-toolkit"
         },
         {
             title: "Advanced Techniques",
@@ -53,6 +53,21 @@ export default function IntegrationsPage() {
         <section className="min-h-screen bg-background">
             <div className="pt-8 pb-16 md:pt-12 md:pb-24">
                 <div className="mx-auto max-w-6xl px-6">
+                    {/* Back Button */}
+                    <div className="mb-8">
+                        <Button
+                            asChild
+                            variant="ghost"
+                            size="sm"
+                            className="group gap-2 text-muted-foreground hover:text-cyan hover:bg-cyan/10 dark:hover:bg-cyan/20 transition-all duration-300"
+                        >
+                            <Link href="/" className="flex items-center gap-2">
+                                <FaChevronLeft className="size-4 transition-transform duration-300 group-hover:-translate-x-1" />
+                                Back to Home
+                            </Link>
+                        </Button>
+                    </div>
+
                     {/* Hero Section */}
                     <div className="text-center mb-16">
                         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan/10 dark:bg-cyan/20 border border-cyan/20 dark:border-cyan/30 mb-6">
