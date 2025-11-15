@@ -4,15 +4,11 @@ import React from 'react'
 import DarkModeToggle from '../DarkModeToggle'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import { FaFishFins } from "react-icons/fa6";
-import { FaChevronLeft } from "react-icons/fa";
-import { GiPenguin } from "react-icons/gi";
 import { useEffect, useState } from 'react'
 import CreditsPurchaseModal from './CreditsPurchaseModal'
 
 const DocsTopbar = () => {
-  const router = useRouter()
   const [credits, setCredits] = useState<number>(0)
   const [username, setUsername] = useState<string>('Username')
   const [isCreditsModalOpen, setIsCreditsModalOpen] = useState<boolean>(false)
