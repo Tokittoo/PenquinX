@@ -17,8 +17,7 @@ interface CreditsPurchaseModalProps {
 export default function CreditsPurchaseModal({
     isOpen,
     onClose,
-    currentCredits,
-    onCreditsUpdate
+    currentCredits
 }: CreditsPurchaseModalProps) {
     const [selectedPackage, setSelectedPackage] = useState<{ credits: number; price: number } | null>(null)
 
