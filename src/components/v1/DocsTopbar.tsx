@@ -41,13 +41,7 @@ return (
     <div className='h-16 w-full'>
       <div className='fixed w-full inset-x-0 bg-background border-b border-border top-0 z-50 flex justify-between items-center md:px-20 px-8 py-4'>
         <div className='flex items-center gap-4'>
-          <button
-            onClick={() => router.back()}
-            className='flex items-center justify-center w-8 h-8 rounded-md hover:bg-accent transition-colors'
-            aria-label='Go back'
-          >
-            <FaChevronLeft size={18} />
-          </button>
+          
           <Link href={'/'} className='flex items-center gap-2'>
             <Image
               src={'/Penquin.png'}
@@ -71,8 +65,7 @@ return (
 
           {/* User account showcase */}
           <div className='flex items-center gap-2'>
-            <GiPenguin size={24} />
-            <span className='text-sm font-semibold tracking-wide'>{username.charAt(0).toUpperCase() + username.slice(1)}</span>
+            <span className='text-sm font-semibold tracking-wide'>Hi,{username.charAt(0).toUpperCase() + username.slice(1)}</span>
           </div>
 
           <DarkModeToggle />

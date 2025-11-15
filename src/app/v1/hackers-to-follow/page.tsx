@@ -112,9 +112,6 @@ export default function Page() {
 						><br />
 							Select Where You Want to Redirect
 						</motion.h1>
-						<p className='text-lg text-muted-foreground max-w-2xl mx-auto mb-0'>
-							Connect with top security researchers, bug bounty hunters, and cybersecurity experts across platforms.
-						</p>
 					</div> <br /><br /><br />
 
 					<BugHunterCarousel

@@ -125,9 +125,6 @@ export default function Page() {
 						><br />
 							Select Where You Want to Redirect
 						</motion.h1>
-						<p className='text-lg text-muted-foreground max-w-2xl mx-auto mb-0'>
-							Essential tools and resources for bug bounty hunters. Everything you need to find and report vulnerabilities.
-						</p>
 					</div> <br /><br /><br />
 					<BugHunterCarousel
 						className="mt-12 md:-mt-12"

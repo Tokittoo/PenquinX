@@ -4,7 +4,7 @@
 
 Streamline Your Bug Bounty Workflow — Hack Smarter, Not Harder.
 
-<a href="https://penquin.vercel.app/" target="_blank">Get Started</a>
+<a href="https://penquinx.vercel.app/" target="_blank">Get Started</a>
 
 </div>
 
@@ -40,7 +40,7 @@ This is where raw skill meets engineered precision — a battle-tested toolkit f
 - These are not just random tools but they are the most weight-pulling tools in the space of Cyber Security.
 - To install these tools, just run a simple command.
  ```shell
-wget https://raw.githubusercontent.com/xibhi/Penquin/refs/heads/main/ToolsInstaller.sh && sudo bash ToolsInstaller.sh
+wget https://raw.githubusercontent.com/xibhi/Penquin/refs/heads/master/ToolsInstaller.sh && sudo bash ToolsInstaller.sh
  ```
 - Paste this in, press Enter and grab a cup of coffee, either you watch all these tools install, or get a break from the screen and wonder at the world around you.
 
