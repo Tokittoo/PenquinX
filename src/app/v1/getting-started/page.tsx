@@ -1,11 +1,15 @@
 'use client'
 
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { motion } from 'motion/react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { FaChevronLeft } from 'react-icons/fa'
+import { FaFishFins } from 'react-icons/fa6'
+import { GiPenguin } from 'react-icons/gi'
 import BugHunterCarousel from '@/app/v1/BugHunterCarousel'
+import CreditsPurchaseModal from '@/components/v1/CreditsPurchaseModal'
 
 const gettingStartedItems = [
 	{
@@ -18,41 +22,76 @@ const gettingStartedItems = [
 ]
 
 export default function Page() {
+	const [credits, setCredits] = useState<number>(0)
+	const [username, setUsername] = useState<string>('Username')
+	const [isCreditsModalOpen, setIsCreditsModalOpen] = useState<boolean>(false)
+
+	useEffect(() => {
+		try {
+			const storedCredits = Number.parseInt(localStorage.getItem('px_credits') ?? '0', 10)
+			if (Number.isFinite(storedCredits)) setCredits(storedCredits)
+			const storedName = localStorage.getItem('px_username')
+			if (storedName && storedName.trim().length > 0) setUsername(storedName.toUpperCase())
+		} catch {
+			// ignore read errors; defaults will be used
+		}
+	}, [])
+
+	const handleCreditsUpdate = (newCredits: number) => {
+		setCredits(newCredits)
+		localStorage.setItem('px_credits', newCredits.toString())
+	}
+
 	return (
-		<section className='min-h-screen bg-background'>
+		<section className='min-h-screen bg-background relative'>
+			{/* Logo - Top Left (Fixed Position) */}
+			<div className='fixed top-10 left-20 z-50 flex items-center'>
+				<Link href={'/'} className='flex items-center gap-2'>
+					<Image
+						src={'/Penquin.png'}
+						height={30}
+						width={30}
+						alt='Logo'
+						className='rounded-md invert dark:invert-0'
+					/>
+					<h1 className='text-xl font-sans font-bold tracking-tight'>PenquinX</h1>
+				</Link>
+			</div>
+
+			{/* Credits and User Account Info - Top Right (Fixed Position) */}
+			<div className='fixed top-10 right-20 z-50 flex items-center gap-4'>
+				{/* Credits badge with blue fish icon - Clickable */}
+				<button
+					onClick={() => setIsCreditsModalOpen(true)}
+					className='inline-flex items-center gap-2 rounded-full border border-border px-3 py-1.5 text-xs bg-background/80 backdrop-blur-sm hover:bg-background hover:border-cyan/30 dark:hover:border-cyan/40 transition-all duration-300 cursor-pointer'
+				>
+					<FaFishFins color="#007FFF" size={16} />
+					<span className='font-medium'>{credits}</span>
+				</button>
+
+				{/* User account information */}
+				<div className='flex items-center gap-2 px-3 py-1.5 '>
+					<span className='text-sm font-semibold tracking-wide'>Hi, {username.charAt(0).toUpperCase() + username.slice(1)}</span>
+				</div>
+			</div>
+
 			<div className='pt-8 pb-16 md:pt-12 md:pb-24'>
 				<div className='mx-auto max-w-6xl px-6'>
-					{/* Back Button */}
-					<div className='mb-8'>
-						<Button
-							asChild
-							variant="ghost"
-							size="sm"
-							className="group gap-2 text-muted-foreground hover:text-cyan hover:bg-cyan/10 dark:hover:bg-cyan/20 transition-all duration-300"
-						>
-							<Link href="/v1" className="flex items-center gap-2">
-								<FaChevronLeft className="size-4 transition-transform duration-300 group-hover:-translate-x-1" />
-								Back to Docs
-							</Link>
-						</Button>
-					</div>
+					
 
 					{/* Hero Section */}
 					<div className='text-center mb-0'>
-						<div className='inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan/10 dark:bg-cyan/20 border border-cyan/20 dark:border-cyan/30 mb-6'>
-							<span className='text-sm font-medium text-cyan dark:text-cyan/90'>Getting Started</span>
-						</div>
 						<motion.h1
 							initial={{ opacity: 0, filter: 'blur(10px)', y: 20 }}
 							animate={{ opacity: 1, filter: 'blur(0px)', y: 0, transition: { duration: 0.3 } }}
 							className='text-balance text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl mb-2 bg-gradient-to-b from-foreground to-foreground/70 bg-clip-text text-transparent'
-						>
+						><br />
 							Select Where You Want to Redirect
 						</motion.h1>
 						<p className='text-lg text-muted-foreground max-w-2xl mx-auto mb-0'>
 							Kick off with the core PenquinX workflow, install prerequisites, and learn how to navigate the toolkit.
 						</p>
-					</div>
+					</div> <br /><br /><br />
 
 					<BugHunterCarousel
 						className="mt-12 md:-mt-12"
@@ -64,6 +103,14 @@ export default function Page() {
 					/>
 				</div>
 			</div>
+
+			{/* Credits Purchase Modal */}
+			<CreditsPurchaseModal
+				isOpen={isCreditsModalOpen}
+				onClose={() => setIsCreditsModalOpen(false)}
+				currentCredits={credits}
+				onCreditsUpdate={handleCreditsUpdate}
+			/>
 		</section>
 	)
 }

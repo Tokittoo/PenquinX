@@ -198,7 +198,7 @@ export default function BugHunterCarousel({ items, className, label, singleMode 
 			</div>
 
 			{!isSingle && items.length > 1 ? (
-				<div className='-mt-12 sm:-mt-20 flex items-center justify-center gap-2 sm:gap-5 relative z-50 px-4 pb-2'>
+				<div className='-mt-18 md:-mt-20 flex items-center justify-center gap-2 sm:gap-5 relative z-50 px-4 pb-2'>
 					<button
 						type='button'
 						onClick={() => goTo(index - 1)}

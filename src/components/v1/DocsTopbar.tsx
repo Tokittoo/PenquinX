@@ -9,11 +9,13 @@ import { FaFishFins } from "react-icons/fa6";
 import { FaChevronLeft } from "react-icons/fa";
 import { GiPenguin } from "react-icons/gi";
 import { useEffect, useState } from 'react'
+import CreditsPurchaseModal from './CreditsPurchaseModal'
 
 const DocsTopbar = () => {
   const router = useRouter()
   const [credits, setCredits] = useState<number>(0)
   const [username, setUsername] = useState<string>('Username')
+  const [isCreditsModalOpen, setIsCreditsModalOpen] = useState<boolean>(false)
 
 
   useEffect(() => {
@@ -27,6 +29,11 @@ const DocsTopbar = () => {
       // ignore read errors; defaults will be used
     }
   }, [])
+
+  const handleCreditsUpdate = (newCredits: number) => {
+    setCredits(newCredits)
+    localStorage.setItem('px_credits', newCredits.toString())
+  }
 
 
 
@@ -53,11 +60,14 @@ return (
           </Link>
         </div>
         <div className='flex items-center gap-3'>
-          {/* Credits badge with fish icon */}
-          <div className='inline-flex items-center gap-2 rounded-full border border-border px-3 py-1 text-xs'>
+          {/* Credits badge with fish icon - Clickable */}
+          <button
+            onClick={() => setIsCreditsModalOpen(true)}
+            className='inline-flex items-center gap-2 rounded-full border border-border px-3 py-1 text-xs hover:bg-accent hover:border-cyan/30 dark:hover:border-cyan/40 transition-all duration-300 cursor-pointer'
+          >
             <FaFishFins color="#007FFF" size={16} />
             <span className='font-medium'>{credits}</span>
-          </div>
+          </button>
 
           {/* User account showcase */}
           <div className='flex items-center gap-2'>
@@ -68,6 +78,14 @@ return (
           <DarkModeToggle />
         </div>
       </div>
+
+      {/* Credits Purchase Modal */}
+      <CreditsPurchaseModal
+        isOpen={isCreditsModalOpen}
+        onClose={() => setIsCreditsModalOpen(false)}
+        currentCredits={credits}
+        onCreditsUpdate={handleCreditsUpdate}
+      />
     </div>
   )
 }

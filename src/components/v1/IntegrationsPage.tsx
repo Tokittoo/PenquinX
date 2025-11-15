@@ -1,12 +1,36 @@
+'use client'
+
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import Link from 'next/link'
+import Image from 'next/image'
 import * as React from 'react'
-import { FaBookOpen, FaChevronRight, FaChevronLeft, FaRocket } from 'react-icons/fa'
-import { GiCrossedSwords } from 'react-icons/gi'
-import { FaUserSecret } from 'react-icons/fa6'
+import { useEffect, useState } from 'react'
+import { FaBookOpen, FaChevronRight, FaChevronLeft, FaRocket, FaShieldAlt, FaCode, FaGraduationCap, FaUsers, FaTrophy, FaFlask, FaCogs } from 'react-icons/fa'
+import { GiCrossedSwords, GiPenguin } from 'react-icons/gi'
+import { FaUserSecret, FaFishFins } from 'react-icons/fa6'
+import CreditsPurchaseModal from './CreditsPurchaseModal'
 
 export default function IntegrationsPage() {
+    const [credits, setCredits] = useState<number>(0)
+    const [username, setUsername] = useState<string>('Username')
+    const [isCreditsModalOpen, setIsCreditsModalOpen] = useState<boolean>(false)
+
+    useEffect(() => {
+        try {
+            const storedCredits = Number.parseInt(localStorage.getItem('px_credits') ?? '0', 10)
+            if (Number.isFinite(storedCredits)) setCredits(storedCredits)
+            const storedName = localStorage.getItem('px_username')
+            if (storedName && storedName.trim().length > 0) setUsername(storedName.toUpperCase())
+        } catch {
+            // ignore read errors; defaults will be used
+        }
+    }, [])
+
+    const handleCreditsUpdate = (newCredits: number) => {
+        setCredits(newCredits)
+        localStorage.setItem('px_credits', newCredits.toString())
+    }
     // Map integration cards to navigation items
     const integrations = [
         {
@@ -22,67 +46,97 @@ export default function IntegrationsPage() {
             link: "/v1/learn-the-basics"
         },
         {
-            title: "Hackers to Follow",
-            description: "Connect with top security researchers, bug bounty hunters, and cybersecurity experts across platforms.",
-            icon: <FaUserSecret />,
-            link: "/v1/hackers-to-follow"
-        },
-        {
             title: "Bug Hunter's Toolkit",
             description: "Essential tools and resources for bug bounty hunters. Everything you need to find and report vulnerabilities.",
             icon: <GiCrossedSwords />,
             link: "/v1/bug-hunting-toolkit"
         },
         {
+            title: "Workshops",
+            description: "Join interactive workshops and hands-on sessions to learn security principles, secure coding practices, and defensive strategies.",
+            icon: <FaUsers />,
+            link: "#"
+        },
+        {
+            title: "Challenges",
+            description: "Test your skills with CTF challenges, capture the flag competitions, and security puzzles to level up your expertise.",
+            icon: <FaTrophy />,
+            link: "#"
+        },
+        {
+            title: "Hackers to Follow",
+            description: "Connect with top security researchers, bug bounty hunters, and cybersecurity experts across platforms.",
+            icon: <FaUserSecret />,
+            link: "/v1/hackers-to-follow"
+        },
+        {
             title: "Advanced Techniques",
             description: "Coming soon: Deep dive into advanced penetration testing, exploit development, and security research methodologies.",
-           icon: <FaBookOpen />,
+            icon: <FaCogs />,
             link: "#",
             comingSoon: true
         },
         {
             title: "Security Labs",
             description: "Coming soon: Practice your skills with hands-on labs, CTF challenges, and vulnerable applications.",
-            icon: <FaBookOpen />,
+            icon: <FaFlask />,
+            link: "#",
+            comingSoon: true
+        },
+        {
+            title: "Certification Paths",
+            description: "Navigate through industry-recognized cybersecurity certifications and plan your professional development journey.",
+            icon: <FaGraduationCap />,
             link: "#",
             comingSoon: true
         }
     ]
 
     return (
-        <section className="min-h-screen bg-background">
+        <section className="min-h-screen bg-background relative">
+            {/* Logo - Top Left (Fixed Position) */}
+            <div className='fixed top-10 left-20 z-50 flex items-center'>
+            <Link href={'/'} className='flex items-center gap-2'>
+               <Image
+                    src={'/Penquin.png'}
+                    height={30}
+                    width={30}
+                    alt='Logo'
+                    className='rounded-md invert dark:invert-0'
+                />
+            <h1 className='text-xl font-sans font-bold tracking-tight'>PenquinX</h1>
+          </Link>
+        </div>
+
+            {/* Credits and User Account Info - Top Right (Fixed Position) */}
+            <div className='fixed top-10 right-20 z-50 flex items-center gap-4'>
+                {/* Credits badge with blue fish icon - Clickable */}
+                <button
+                    onClick={() => setIsCreditsModalOpen(true)}
+                    className='inline-flex items-center gap-2 rounded-full border border-border px-3 py-1.5 text-xs bg-background/80 backdrop-blur-sm hover:bg-background hover:border-cyan/30 dark:hover:border-cyan/40 transition-all duration-300 cursor-pointer'
+                >
+                    <FaFishFins color="#007FFF" size={16} />
+                    <span className='font-medium'>{credits}</span>
+                </button>
+
+                {/* User account information */}
+                <div className='flex items-center gap-2 px-3 py-1.5 '>
+                    <span className='text-sm font-semibold tracking-wide'>Hi, {username.charAt(0).toUpperCase() + username.slice(1)}</span>
+                </div>
+            </div>
+            
             <div className="pt-8 pb-16 md:pt-12 md:pb-24">
-                <div className="mx-auto max-w-6xl px-6">
-                    {/* Back Button */}
-                    <div className="mb-8">
-                        <Button
-                            asChild
-                            variant="ghost"
-                            size="sm"
-                            className="group gap-2 text-muted-foreground hover:text-cyan hover:bg-cyan/10 dark:hover:bg-cyan/20 transition-all duration-300"
-                        >
-                            <Link href="/" className="flex items-center gap-2">
-                                <FaChevronLeft className="size-4 transition-transform duration-300 group-hover:-translate-x-1" />
-                                Back to Home
-                            </Link>
-                        </Button>
-                    </div>
+                 <div className="mx-auto max-w-6xl px-6">
 
                     {/* Hero Section */}
-                    <div className="text-center mb-16">
-                        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan/10 dark:bg-cyan/20 border border-cyan/20 dark:border-cyan/30 mb-6">
-                            <span className="text-sm font-medium text-cyan dark:text-cyan/90">Documentation Hub</span>
-                        </div>
+                  <div className="text-center mb-16">
                         <h1 className="text-balance text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl mb-4 bg-gradient-to-b from-foreground to-foreground/70 bg-clip-text text-transparent">
                             Begin Your PenquinX Experience
-                        </h1>
-                        <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                            Comprehensive resources to master cybersecurity, bug hunting, and ethical hacking. Everything you need to start your journey.
-                        </p>
+                         </h1>
                     </div>
 
                     {/* Integration Cards Grid */}
-                    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                    <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
                         {integrations.map((integration) => (
                             <IntegrationCard
                                 key={integration.title}
@@ -97,6 +151,14 @@ export default function IntegrationsPage() {
                     </div>
                 </div>
             </div>
+
+            {/* Credits Purchase Modal */}
+            <CreditsPurchaseModal
+                isOpen={isCreditsModalOpen}
+                onClose={() => setIsCreditsModalOpen(false)}
+                currentCredits={credits}
+                onCreditsUpdate={handleCreditsUpdate}
+            />
         </section>
     )
 }
