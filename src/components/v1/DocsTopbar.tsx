@@ -4,12 +4,14 @@ import React from 'react'
 import DarkModeToggle from '../DarkModeToggle'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { FaFishFins } from "react-icons/fa6";
+import { FaChevronLeft } from "react-icons/fa";
 import { GiPenguin } from "react-icons/gi";
 import { useEffect, useState } from 'react'
 
 const DocsTopbar = () => {
-
+  const router = useRouter()
   const [credits, setCredits] = useState<number>(0)
   const [username, setUsername] = useState<string>('Username')
 
@@ -31,7 +33,14 @@ const DocsTopbar = () => {
 return (
     <div className='h-16 w-full'>
       <div className='fixed w-full inset-x-0 bg-background border-b border-border top-0 z-50 flex justify-between items-center md:px-20 px-8 py-4'>
-        <div className='flex items-center'>
+        <div className='flex items-center gap-4'>
+          <button
+            onClick={() => router.back()}
+            className='flex items-center justify-center w-8 h-8 rounded-md hover:bg-accent transition-colors'
+            aria-label='Go back'
+          >
+            <FaChevronLeft size={18} />
+          </button>
           <Link href={'/'} className='flex items-center gap-2'>
             <Image
               src={'/Penquin.png'}
@@ -46,7 +55,7 @@ return (
         <div className='flex items-center gap-3'>
           {/* Credits badge with fish icon */}
           <div className='inline-flex items-center gap-2 rounded-full border border-border px-3 py-1 text-xs'>
-            <FaFishFins color="cyan" size={16} />
+            <FaFishFins color="#007FFF" size={16} />
             <span className='font-medium'>{credits}</span>
           </div>
 
